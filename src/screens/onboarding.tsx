@@ -1,49 +1,60 @@
-import React from 'react';
-import { View, Text, Image, ScrollView, TextInput, Button } from 'react-native';
+import React, { useCallback } from 'react';
+import { View, Text, Image, ScrollView, TextInput, Button, RefreshControl } from 'react-native';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+import Bitcoin from '../components/Bitcoin';
 
 
-
-export const Bitcoin = async function () {
-    const [currentPrice, setPrice] = useState("");
-    try {
-        useEffect(() => {
-            const result = await fetch("https://api.cryptonator.com/api/ticker/btc-usd")      
-        //bitcoinPrice.value = data.ticker.price;
-        const data = await result.json();
-        console.log(data.ticker.price)
-        }, []);
-        return (
-            <View>
-            <Button
-            onPress={() => {
-                setPrice (data.ticker.price);
-            }}
-            disabled={currentPrice != ""}
-            title={currentPrice? "Refresh" : "Current Price"}
-            />
-        </View>
-    )
-        
-                  
-    }   
-    catch (e) {
-        console.log(e)
-        //bitcoinPrice.value = "data unavailable";
-        return <Text>"data unavailable"</Text>
-    }
-    
-
-}
 
 const Onboarding = () => {
+    const wait = (timeout) => {
+        return new Promise(resolve => {
+          setTimeout(resolve, timeout)
+        })
+      }
+      const url = 'https://api.cryptonator.com/api/ticker/btc-usd'
+    const [bitcoin, setbitcoin] = useState(null)
+    const content = null
+    
+    useEffect(()=>{
+        axios.get(url)
+            .then(response=>{
+                setbitcoin(response.data)
+            })
+    },[url])
+    let price: number;
+    if(bitcoin){
+      price = bitcoin.ticker.price;
+    }else{
+      price = 0;
+    }
+    
+      
+    const [refreshing, setRefreshing] = useState(false)
+      const onRefresh = useCallback(()=>{
+        setRefreshing(true)
+    
+        wait(2000).then(()=>{
+          setRefreshing(false)
+          
+        })
+      }, [refreshing])
+
   return (
+      
     <ScrollView>
       <Text>Bitcoin price</Text>
       <View>
         <Text>Bitcoin price</Text>
-     
-     <Bitcoin />
+    
+
+     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
+
+    <View>
+        <Bitcoin price = {price}/>
+    </View>
+
+    </ScrollView>
         
         
       </View>

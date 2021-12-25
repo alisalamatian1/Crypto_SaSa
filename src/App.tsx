@@ -24,14 +24,21 @@ const Main = () => {
 const AppNavigator = () =>{
 
   return(
-  <Stack.Navigator>
+  <Stack.Navigator
+  initialRouteName="Home"
+      screenOptions={{
+        headerStyle: {backgroundColor: '#42f44b'},
+        headerTintColor: '#fff',
+        headerTitleStyle: {fontWeight: 'bold'},
+      }}>
    <Stack.Screen name = "prices" component = {Onboarding} />
    <Stack.Screen name = "search" component = {Main} 
-   />
+   options={{title: 'Home Page'}
+  }
+  />
   </Stack.Navigator>
   )
 }
-
 
 const App =() =>{
   return(
@@ -41,7 +48,5 @@ const App =() =>{
 
   )
 }
-
-
 
 export default App;

@@ -15,12 +15,21 @@ const styles = StyleSheet.create({
         flex:1
     }
 })
+let priceBit : number;
+let priceEth : number;
+let priceStellar: number;
+let priceRipple: number;
 const Onboarding = () => {
     const originalUrl = 'https://api.cryptonator.com/api/ticker/btc-usd'
     let url = 'https://api.cryptonator.com/api/ticker/btc-usd'
-    let urlEth = "https://api.cryptonator.com/api/ticker/eth-usd" 
+    let urlEth = "https://api.cryptonator.com/api/ticker/eth-usd"
+    let urlStellar = "https://api.cryptonator.com/api/full/xlm-usd"
+    let urlRipple = "https://api.cryptonator.com/api/full/xrp-usd"
     const [bitcoin, setbitcoin] = useState(null)
     const [ethereum, setEthereum] = useState(null)
+    const [dodgecoin, setDodgecoin] = useState(null)
+    const [stellar, setStellar] = useState(null)
+    const [ripple, setRipple] = useState(null)
     const [refreshing, setRefreshing] = useState(false)
 
     const content = null
@@ -35,13 +44,20 @@ const Onboarding = () => {
             .then(response=>{
                 setEthereum(response.data)            
             })
+            
+            axios.get(urlStellar)
+                .then(response=>{
+                    setStellar(response.data)            
+                })
+            axios.get(urlRipple)
+                .then(response=>{
+                    setRipple(response.data)            
+                })
 
 
     },[refreshing])
 
 
-let priceBit : number;
-let priceEth : number;
 
 if (bitcoin){
     priceBit = bitcoin.ticker.price;
@@ -53,6 +69,17 @@ if (ethereum){
 }else{
     priceEth = 0;
 }
+if (stellar){
+  priceStellar = stellar.ticker.price
+}else{
+  priceStellar = 0;
+}
+if(ripple){
+  priceRipple = ripple.ticker.price
+}else{
+  priceRipple = 0;
+}
+
 
 
   
@@ -71,12 +98,20 @@ if (ethereum){
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
 
     <View style={styles.main}>
-       <Coin name = {"Bitcoin"} logo = {'logo-bitcoin'} price = {priceBit}/>
+       <Coin  name = {"Bitcoin"} logo = {'logo-bitcoin'} price = {priceBit}/>
+       <Text></Text>
        <Coin name = {"Ethereum"} price = {priceEth}/>
+       <Text></Text>
+       <Coin name = {"Stellar"} price = {priceStellar}/>
+       <Text></Text>
+       <Coin name = {"Ripple"} price = {priceRipple}/>
     </View>
 
     </ScrollView>
   );
 }
+export {priceBit, priceEth, priceStellar, priceRipple};
+
+
 
 export default Onboarding;

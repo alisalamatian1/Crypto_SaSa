@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, TextInput } from 'react-native';
 import Onboarding from './screens/onboarding';
+import Wallet from './components/Wallet'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from 
@@ -10,16 +11,7 @@ import { createBottomTabNavigator } from
 const Stack = createBottomTabNavigator();
 
 
-const Main = () => {
-  return (
-    <ScrollView>
-      <Text>Some text</Text>
-        <Text>Some more text</Text>       
-    </ScrollView>
 
-
-  );
-}
 
 const AppNavigator = () =>{
 
@@ -27,13 +19,14 @@ const AppNavigator = () =>{
   <Stack.Navigator
   initialRouteName="Home"
       screenOptions={{
-        headerStyle: {backgroundColor: '#42f44b'},
+        headerStyle: {backgroundColor: '#696969'},
         headerTintColor: '#fff',
-        headerTitleStyle: {fontWeight: 'bold'},
+        headerTitleStyle: {fontWeight: 'bold', fontSize:20},
       }}>
-   <Stack.Screen name = "prices" component = {Onboarding} />
-   <Stack.Screen name = "search" component = {Main} 
-   options={{title: 'Home Page'}
+   <Stack.Screen name = "prices" component = {Onboarding} 
+   options={{title: 'Coins'}}/>
+   <Stack.Screen name = "search" component = {Wallet} 
+   options={{title: 'Wallet'}
   }
   />
   </Stack.Navigator>

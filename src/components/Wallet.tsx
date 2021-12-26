@@ -1,11 +1,17 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useCallback} from 'react'
 import axios from 'axios'
-import { KeyboardAvoidingView, View, Pressable, Text, Button, Platform, Image, ImageBackground, SafeAreaView, ScrollView, TextInput, StyleSheet } from 'react-native';
+import { KeyboardAvoidingView, View, Pressable, Text, Button, Platform, RefreshControl, Image, ImageBackground, SafeAreaView, ScrollView, TextInput, StyleSheet } from 'react-native';
 import {BsCurrencyBitcoin} from "react-icons/bs";
 import { Icon } from 'react-native-elements';
 import Pays from './Pays';
 import { profit } from './Pays';
+const wait = (timeout) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout)
+    })
+  }
 const Wallet = () => {
+    const [refreshing, setRefreshing] = useState(false)
     const [coinName, setCoinName] = useState(null)
     const [index, setIndex] = useState(0)
     const [coinQuantity, setCoinQuantity] = useState(null)
@@ -36,9 +42,18 @@ const Wallet = () => {
         setProfit(profit1 + profit)
         
     }
+    const onRefresh = useCallback(()=>{
+        setRefreshing(true)
+    
+        wait(1000).then(()=>{
+          
+          setRefreshing(false)
+          
+        })
+      }, [refreshing])
     return(
        <SafeAreaView style = {styles.container}>
-           <ScrollView>
+           <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
 
                <View>
                     <Text style = {styles.totProfit}>

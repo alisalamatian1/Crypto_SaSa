@@ -10,21 +10,20 @@ let delta: number = 0;
 let price: number;
 let profit: number = 0;
 const Pays = (props) =>{
-    
-    
+       
     let checkBit = "Bitcoin".localeCompare(props.name)
     let checkEth = "Ethereum".localeCompare(props.name)
     let checkSte = "Stellar".localeCompare(props.name)
     let checkRip = "Ripple".localeCompare(props.name)
-    if(checkBit === 0){
+    if(props.name === "Bitcoin"){
         name = "Bitcoin"
         delta = priceBit - props.price;
         price = priceBit;
     }
-    else if(checkEth === 0){
+    else if(props.name === "Ethereum"){
         name = "Ethereum"
         delta = priceEth - props.price;
-        price = priceBit;
+        price = priceEth;
     }
     else if(checkSte === 0){
         name = "Stellar"

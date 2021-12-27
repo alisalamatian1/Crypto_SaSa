@@ -1,42 +1,55 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, TextInput } from 'react-native';
 import Onboarding from './screens/onboarding';
-import Wallet from './components/Wallet'
+import Wallet from './components/Wallet';
+import LoginScreen from './screens/Auth/login/LoginScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from 
-'@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Signout from './screens/Auth/logout/Signout'
 
+const Tab = createBottomTabNavigator();
 
-const Stack = createBottomTabNavigator();
-
+const Stack = createNativeStackNavigator();
 
 
 
 const AppNavigator = () =>{
 
   return(
-  <Stack.Navigator
-  initialRouteName="Home"
+  <Tab.Navigator
+  initialRouteName="Homescreen"
       screenOptions={{
         headerStyle: {backgroundColor: '#696969'},
         headerTintColor: '#fff',
         headerTitleStyle: {fontWeight: 'bold', fontSize:20},
       }}>
-   <Stack.Screen name = "prices" component = {Onboarding} 
+    
+   <Tab.Screen name = "Coins" component = {Onboarding} 
    options={{title: 'Coins'}}/>
-   <Stack.Screen name = "search" component = {Wallet} 
+   <Tab.Screen name = "wallet" component = {Wallet} 
    options={{title: 'Wallet'}
   }
   />
-  </Stack.Navigator>
+   <Tab.Screen name = "Signout" component = {Signout} 
+   options={{title: 'Setting'}
+  }
+  />
+  </Tab.Navigator>
   )
 }
 
 const App =() =>{
   return(
   <NavigationContainer>
-    <AppNavigator />
+    <Stack.Navigator>
+      
+      
+      <Stack.Screen name = "Login" component = {LoginScreen}/>
+      <Stack.Screen name = "home" component={AppNavigator}/>
+    </Stack.Navigator>
+    
+    
   </NavigationContainer>
 
   )

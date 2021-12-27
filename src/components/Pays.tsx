@@ -70,6 +70,7 @@ const Pays = (props) =>{
             <Text style = {styles.title}>{name}</Text>
             <Text>Quantity: {props.quantity}</Text>
             <Text>Price Bought: {props.price} </Text>
+            <Text>{price}</Text>
             <Text>Net Value: {"$" + Math.round(props.quantity * price)} </Text>
             <Text style = {styles.profit}>Profit = {"$" + profit} </Text>
         </View>

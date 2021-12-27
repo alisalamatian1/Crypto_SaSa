@@ -5,11 +5,13 @@ import {BsCurrencyBitcoin} from "react-icons/bs";
 import { Icon } from 'react-native-elements';
 import Pays from './Pays';
 import { profit } from './Pays';
+import { priceBit, priceEth, priceStellar, priceRipple } from '../screens/onboarding';
 const wait = (timeout) => {
     return new Promise(resolve => {
       setTimeout(resolve, timeout)
     })
   }
+  let sum = 0
 const Wallet = () => {
     const [refreshing, setRefreshing] = useState(false)
     const [coinName, setCoinName] = useState(null)
@@ -17,7 +19,7 @@ const Wallet = () => {
     const [coinQuantity, setCoinQuantity] = useState(null)
     const [coinPrice, setCoinPrice] = useState(null)
     const [list, setList] = useState([])
-    const [profit1, setProfit] = useState(profit)
+    const [profit1, setProfit] = useState(0)
     const handleNewCoin = () =>{
         if(coinName === null ){
             setCoinName(null)
@@ -40,6 +42,17 @@ const Wallet = () => {
         setCoinPrice(null)
         setCoinQuantity(null)
         setProfit(profit1 + profit)
+        //sum = 0
+        
+            if (coinName === "Bitcoin"){
+                sum += coinQuantity * (priceBit - coinPrice) }
+            else if (coinName === "Ethereum"){
+                sum += coinQuantity * (priceEth - coinPrice) 
+            }else if (coinName === "Stellar"){
+                sum += coinQuantity * (priceStellar - coinPrice) 
+            }else if (coinName === "Ripple"){
+                sum += coinQuantity * (priceRipple - coinPrice) }           
+         
         
     }
     const onRefresh = useCallback(()=>{
@@ -51,13 +64,16 @@ const Wallet = () => {
           
         })
       }, [refreshing])
+    
     return(
        <SafeAreaView style = {styles.container}>
            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
 
                <View>
-                    <Text style = {styles.totProfit}>
-                        Total Profit: {"$"}{profit}
+               <Text style = {styles.totProfit}>
+                        Total Profit: 
+                        
+                        {"$"}{sum}
                     </Text>
                    {
                        list.map((item)=>{

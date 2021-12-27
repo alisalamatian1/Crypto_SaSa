@@ -15,7 +15,7 @@ const Coin = (props) =>{
           name={logo}
           type='ionicon' /> {props.name}</Text>
                 <Text style = {styles.price}>
-                     {props.price}
+                     $ {props.price}
 
                 </Text>
             </View>
@@ -23,7 +23,7 @@ const Coin = (props) =>{
     }
     return(
         <View>
-            <Text>
+            <Text style = {styles.loading}>
                 Loading...
             </Text>
         </View>
@@ -49,8 +49,15 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
         marginTop: 10,
         alignSelf: 'center'
+    },
+    loading:{
+        alignSelf: 'center',
+        fontSize: 20
+        
     }
 
 })
+
+
 
 export default Coin

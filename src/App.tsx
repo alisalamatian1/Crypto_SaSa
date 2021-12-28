@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Signout from './screens/Auth/logout/Signout'
 
+
 const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
@@ -43,8 +44,6 @@ const App =() =>{
   return(
   <NavigationContainer>
     <Stack.Navigator>
-      
-      
       <Stack.Screen name = "Login" component = {LoginScreen}/>
       <Stack.Screen name = "home" component={AppNavigator}/>
     </Stack.Navigator>

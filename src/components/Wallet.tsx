@@ -39,7 +39,7 @@ const Wallet = () => {
         setList([...list, object])
         console.log(list)
         setCoinName(null)
-        setCoinPrice(null)
+        setCoinPrice(0)
         setCoinQuantity(null)
         setProfit(profit1 + profit)
         //sum = 0
@@ -77,6 +77,7 @@ const Wallet = () => {
                     </Text>
                    {
                        list.map((item)=>{
+                           console.log ("//////  " + item.name + " //////////")
                            return(<Pays key={item.id} name={item.name} price={item.price} quantity={item.quantity}/>)
                        })
                    }

@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, TextInput } from 'react-native';
 import Onboarding from './screens/onboarding';
-import Wallet from './components/Wallet';
+import Wallet from './screens/Wallet';
 import LoginScreen from './screens/Auth/login/LoginScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Signout from './screens/Auth/logout/Signout'
+import { registerRootComponent } from 'expo';
 
 
 const Tab = createBottomTabNavigator();

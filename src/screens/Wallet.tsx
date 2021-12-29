@@ -17,13 +17,13 @@ import {
 } from "@firebase/firestore";
 import firebase from 'firebase';
 
-const user = firebase.auth().currentUser;
+// const user = firebase.auth().currentUser;
 
-const updateUser = async (id, bitcoin) => {
-    const userDoc = doc(db, "users", id);
-    const newFields = { bitcoin: bitcoin};
-    await updateDoc(userDoc, newFields);
-};
+// const updateUser = async (id, bitcoin) => {
+//     const userDoc = doc(db, "users", id);
+//     const newFields = { bitcoin: bitcoin};
+//     await updateDoc(userDoc, newFields);
+// };
 
 const wait = (timeout) => {
     return new Promise(resolve => {
@@ -112,8 +112,8 @@ const Wallet = () => {
                 <TextInput value={coinName} onChangeText={text => setCoinName(text)} style={styles.input} placeholder={'Bitcoin, Ethereum, Steller, Ripple'}></TextInput>
                 <TextInput value={coinQuantity} onChangeText={text => setCoinQuantity(text)} style={styles.input} placeholder={'Enter Quantity'}></TextInput>
                 <TextInput value={coinPrice} onChangeText={text => setCoinPrice(text)} style={styles.input} placeholder={'Enter Price bought'}></TextInput>
-                {/*<Pressable onPress={() => handleNewCoin()} style={styles.addButton}> */}
-                <Pressable onPress={() => updateUser(user.uid, [coinName, coinQuantity, coinPrice])} style={styles.addButton}> 
+                <Pressable onPress={() => handleNewCoin()} style={styles.addButton}> 
+                {/*<Pressable onPress={() => updateUser(user.uid, [coinName, coinQuantity, coinPrice])} style={styles.addButton}> */}
                     <View>
                         <Text style={styles.plus} >+</Text>
                     </View>

@@ -7,15 +7,9 @@ import Pays from '../components/Pays';
 import { profit } from '../components/Pays';
 import { priceBit, priceEth, priceStellar, priceRipple } from './onboarding';
 import { db } from "../firebaseConfig";
-import {
-    //collection,
-    //getDocs,
-    //addDoc,
-    updateDoc,
-   //deleteDoc,
-    doc,
-} from "@firebase/firestore";
-import firebase from 'firebase';
+import firebase, { auth, firestore, functions } from "../firebase";
+
+
 
 // const user = firebase.auth().currentUser;
 
@@ -25,6 +19,7 @@ import firebase from 'firebase';
 //     await updateDoc(userDoc, newFields);
 // };
 
+
 const wait = (timeout) => {
     return new Promise(resolve => {
         setTimeout(resolve, timeout)
@@ -32,6 +27,7 @@ const wait = (timeout) => {
 }
 let sum = 0
 const Wallet = () => {
+    const coinRef = firestore.collection(`users/${auth.currentUser.uid}/users`)
     const [refreshing, setRefreshing] = useState(false)
     const [coinName, setCoinName] = useState(null)
     const [index, setIndex] = useState(0)
@@ -74,8 +70,24 @@ const Wallet = () => {
             sum += coinQuantity * (priceRipple - coinPrice)
         }
 
-
+        coinRef.add({
+            name: coinName,
+            quantity: coinQuantity,
+            price: coinPrice,
+        })
     }
+    
+    // async () => {
+    //     let listTest;
+    //     const snapshot = await firestore.collection(`users/${auth.currentUser.uid}`).get();
+    //     snapshot.docs.map(item =>
+    //         listTest.push (item)
+    //     ).then(
+    //         console.log (listTest)
+    //     )
+    // }
+
+    
     const onRefresh = useCallback(() => {
         setRefreshing(true)
 
@@ -97,14 +109,13 @@ const Wallet = () => {
                         {"$"}{sum}
                     </Text>
                     {
-                        list.map((item) => {
-                            console.log("//////  " + item.name + " //////////")
-                            return (<Pays key={item.id} name={item.name} price={item.price} quantity={item.quantity} />)
-                        })
-                    }
+                        // list.map((item) => {
+                        //     console.log("//////  " + item.name + " //////////")
+                        //     return (<Pays key={item.id} name={item.name} price={item.price} quantity={item.quantity} />)
+                        // })
 
-                    <Text>
-                    </Text>
+
+                    }
 
                 </View>
             </ScrollView>
@@ -112,8 +123,8 @@ const Wallet = () => {
                 <TextInput value={coinName} onChangeText={text => setCoinName(text)} style={styles.input} placeholder={'Bitcoin, Ethereum, Steller, Ripple'}></TextInput>
                 <TextInput value={coinQuantity} onChangeText={text => setCoinQuantity(text)} style={styles.input} placeholder={'Enter Quantity'}></TextInput>
                 <TextInput value={coinPrice} onChangeText={text => setCoinPrice(text)} style={styles.input} placeholder={'Enter Price bought'}></TextInput>
-                <Pressable onPress={() => handleNewCoin()} style={styles.addButton}> 
-                {/*<Pressable onPress={() => updateUser(user.uid, [coinName, coinQuantity, coinPrice])} style={styles.addButton}> */}
+                <Pressable onPress={() => handleNewCoin()} style={styles.addButton}>
+                    {/*<Pressable onPress={() => updateUser(user.uid, [coinName, coinQuantity, coinPrice])} style={styles.addButton}> */}
                     <View>
                         <Text style={styles.plus} >+</Text>
                     </View>

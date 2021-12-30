@@ -1,9 +1,8 @@
 import * as firebase from "firebase"
-//import { getFirestore } from "@firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import "firebase/firestore";
+import "firebase/auth";
+import "firebase/functions";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDLXsjao3g3wPMWWT2iG4jKzdmamim0mmI",
   authDomain: "crypto-sasa.firebaseapp.com",
@@ -15,11 +14,18 @@ const firebaseConfig = {
 
 // Initialize Firebase
 let app;
+let db;
 if (firebase.apps.length === 0){
     app = firebase.initializeApp(firebaseConfig)
+    db = firebase.firestore ();
+    db.settings({timestampsInSnapshots : true})
 }else{
     app = firebase.app()
 }
 
-const auth = firebase.auth()
-export {auth}
+
+export {db}
+export const auth = firebase.auth();
+export const firestore = firebase.firestore();
+export const functions = firebase.functions();
+export default firebase;

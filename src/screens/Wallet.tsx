@@ -1,24 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import axios from 'axios'
 import { KeyboardAvoidingView, View, Pressable, Text, Button, Platform, RefreshControl, Image, ImageBackground, SafeAreaView, ScrollView, TextInput, StyleSheet } from 'react-native';
-import { BsCurrencyBitcoin } from "react-icons/bs";
-import { Icon } from 'react-native-elements';
 import Pays from '../components/Pays';
 import { profit } from '../components/Pays';
 import { priceBit, priceEth, priceStellar, priceRipple } from './onboarding';
-import { db } from "../firebaseConfig";
-import firebase, { auth, firestore, functions } from "../firebase";
-import getDocs from "@firebase/firestore"
-
-
-
-// const user = firebase.auth().currentUser;
-
-// const updateUser = async (id, bitcoin) => {
-//     const userDoc = doc(db, "users", id);
-//     const newFields = { bitcoin: bitcoin};
-//     await updateDoc(userDoc, newFields);
-// };
+import { auth, firestore } from "../firebase";
 
 
 const wait = (timeout) => {
@@ -54,12 +39,10 @@ const Wallet = () => {
         let object = { id: index, name: coinName, price: coinPrice, quantity: coinQuantity }
         setIndex(index + 1)
         setList([...list, object])
-        console.log(list)
         setCoinName(null)
         setCoinPrice(0)
         setCoinQuantity(null)
         setProfit(profit1 + profit)
-        //sum = 0
 
         if (coinName === "Bitcoin") {
             sum += coinQuantity * (priceBit - coinPrice)
@@ -78,24 +61,11 @@ const Wallet = () => {
             price: coinPrice,
         })
     }
-    // const mmm = async () => {
-    //     console.log ("calling it before")
-    //     let listTest = [];
-    //     const snapshot = await firestore.collection(`users/${auth.currentUser.uid}/users`).get();
-    //     console.log ("After")
-    //     snapshot.docs.map(item =>
-    //     listTest.push (item))
-    //     console.log ("At last")
-    //     console.log (listTest)
-    // }
-    // mmm();
-
+    
     useEffect(()=>{
-        const mmm = async () => {
-            console.log ("calling it before")
+        const getInfo = async () => {
             let listTest = [];
             const coins = await firestore.collection(`users/${auth.currentUser.uid}/users`);
-            console.log ("After")
             coins.get().then((querySnapshot) =>{
                 const tempDoc = querySnapshot.docs.map((doc) => {
                     if (doc.data().name === "Bitcoin") {
@@ -110,46 +80,15 @@ const Wallet = () => {
                     }
                     return { id: doc.id, ...doc.data() }
                 })
-                console.log(tempDoc[0].id)
                 setList(tempDoc)
             })
         }
-        mmm();
+        getInfo();
         
 
 
     },[])
-
-    // "_delegate": la {
-    //     "_converter": null,
-    //     "_document": Rt {
-    //       "data": It {
-    //         "value": Object {
-    //           "mapValue": Object {
-    //             "fields": Object {
-    //               "name": Object {
-
-
-
-
-    // let users : [];
-    // async function getUsers () {
-    // console.log("---------DATA-----------")
-    // users = await firestore().collection('users').get().then(console.log(users))
-    // }
-    // getUsers()
-    // useEffect (() => {
-    //     getDocs (coinRef) .then((snapshot) => {
-    //         let coins = [];
-    //         snapshot.docs.forEach ((doc) =>{
-    //             coins.push (doc)
-    //         })
-    //         console.log ("Here you go:**********")
-    //         console.log (coins)
-    //     })
-    // }, [])
-
-    
+  
     const onRefresh = useCallback(() => {
         setRefreshing(true)
 
@@ -171,8 +110,7 @@ const Wallet = () => {
                         {"$"}{sum}
                     </Text>
                     {
-                        list.map((item) => {
-                            console.log("//////  " + item.name + " //////////")
+                        list.map((item) => {                       
                             return (<Pays key={item.id} name={item.name} price={item.price} quantity={item.quantity} />)
                         })
                     }

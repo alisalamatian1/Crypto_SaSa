@@ -8,6 +8,7 @@ import { profit } from '../components/Pays';
 import { priceBit, priceEth, priceStellar, priceRipple } from './onboarding';
 import { db } from "../firebaseConfig";
 import firebase, { auth, firestore, functions } from "../firebase";
+import getDocs from "@firebase/firestore"
 
 
 
@@ -26,6 +27,7 @@ const wait = (timeout) => {
     })
 }
 let sum = 0
+
 const Wallet = () => {
     const coinRef = firestore.collection(`users/${auth.currentUser.uid}/users`)
     const [refreshing, setRefreshing] = useState(false)
@@ -76,16 +78,66 @@ const Wallet = () => {
             price: coinPrice,
         })
     }
-    
-    // async () => {
-    //     let listTest;
-    //     const snapshot = await firestore.collection(`users/${auth.currentUser.uid}`).get();
+    // const mmm = async () => {
+    //     console.log ("calling it before")
+    //     let listTest = [];
+    //     const snapshot = await firestore.collection(`users/${auth.currentUser.uid}/users`).get();
+    //     console.log ("After")
     //     snapshot.docs.map(item =>
-    //         listTest.push (item)
-    //     ).then(
-    //         console.log (listTest)
-    //     )
+    //     listTest.push (item))
+    //     console.log ("At last")
+    //     console.log (listTest)
     // }
+    // mmm();
+
+    useEffect(()=>{
+        const mmm = async () => {
+            console.log ("calling it before")
+            let listTest = [];
+            const coins = await firestore.collection(`users/${auth.currentUser.uid}/users`);
+            console.log ("After")
+            coins.get().then((querySnapshot) =>{
+                const tempDoc = querySnapshot.docs.map((doc) => {
+                    return { id: doc.id, ...doc.data() }
+                })
+                console.log(tempDoc[0].id)
+                setList(tempDoc)
+            })
+        }
+        mmm();
+        
+
+
+    },[])
+
+    // "_delegate": la {
+    //     "_converter": null,
+    //     "_document": Rt {
+    //       "data": It {
+    //         "value": Object {
+    //           "mapValue": Object {
+    //             "fields": Object {
+    //               "name": Object {
+
+
+
+
+    // let users : [];
+    // async function getUsers () {
+    // console.log("---------DATA-----------")
+    // users = await firestore().collection('users').get().then(console.log(users))
+    // }
+    // getUsers()
+    // useEffect (() => {
+    //     getDocs (coinRef) .then((snapshot) => {
+    //         let coins = [];
+    //         snapshot.docs.forEach ((doc) =>{
+    //             coins.push (doc)
+    //         })
+    //         console.log ("Here you go:**********")
+    //         console.log (coins)
+    //     })
+    // }, [])
 
     
     const onRefresh = useCallback(() => {
@@ -109,12 +161,10 @@ const Wallet = () => {
                         {"$"}{sum}
                     </Text>
                     {
-                        // list.map((item) => {
-                        //     console.log("//////  " + item.name + " //////////")
-                        //     return (<Pays key={item.id} name={item.name} price={item.price} quantity={item.quantity} />)
-                        // })
-
-
+                        list.map((item) => {
+                            console.log("//////  " + item.name + " //////////")
+                            return (<Pays key={item.id} name={item.name} price={item.price} quantity={item.quantity} />)
+                        })
                     }
 
                 </View>

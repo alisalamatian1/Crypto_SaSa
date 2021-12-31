@@ -98,6 +98,16 @@ const Wallet = () => {
             console.log ("After")
             coins.get().then((querySnapshot) =>{
                 const tempDoc = querySnapshot.docs.map((doc) => {
+                    if (doc.data().name === "Bitcoin") {
+                        sum += doc.data().quantity * (priceBit - doc.data().price)
+                    }
+                    else if (doc.data().name  === "Ethereum") {
+                        sum += doc.data().quantity  * (priceEth - doc.data().price)
+                    } else if (doc.data().name  === "Stellar") {
+                        sum += doc.data().quantity  * (priceStellar - doc.data().price)
+                    } else if (doc.data().name  === "Ripple") {
+                        sum += doc.data().quantity  * (priceRipple - doc.data().price)
+                    }
                     return { id: doc.id, ...doc.data() }
                 })
                 console.log(tempDoc[0].id)

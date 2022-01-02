@@ -1,29 +1,27 @@
-import React, {useEffect, useState} from 'react'
-import axios from 'axios'
-import { View, Text, Image, ImageBackground, ScrollView, TextInput, StyleSheet } from 'react-native';
-import {BsCurrencyBitcoin} from "react-icons/bs";
+import React from 'react'
+import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 
-const Coin = (props) =>{
+const Coin = (props) => {
     let logo: string = props.logo
-    if(props.price){
-        return(
-
-            <View style = {styles.view}>
-                <Text style={styles.title}><Icon
-          name={logo}
-          type='ionicon' /> {props.name}</Text>
-                <Text style = {styles.price}>
-                     $ {props.price}
-
+    if (props.price) {
+        return (
+            <View style={styles.view}>
+                <Text style={styles.title}>
+                    <Icon
+                        name={logo}
+                        type='ionicon' />
+                    {props.name}</Text>
+                <Text style={styles.price}>
+                    $ {props.price}
                 </Text>
             </View>
         )
     }
-    return(
+    return (
         <View>
-            <Text style = {styles.loading}>
+            <Text style={styles.loading}>
                 Loading...
             </Text>
         </View>
@@ -31,16 +29,16 @@ const Coin = (props) =>{
 }
 
 const styles = StyleSheet.create({
-    view:{
+    view: {
         backgroundColor: 'rgb(255, 255, 255)'
     },
-    title:{
+    title: {
         fontSize: 20,
         alignSelf: 'center',
         backgroundColor: 'white',
         marginTop: 10,
     },
-    logo:{
+    logo: {
         maxHeight: 100,
         maxWidth: 100,
     },
@@ -50,14 +48,12 @@ const styles = StyleSheet.create({
         marginTop: 10,
         alignSelf: 'center'
     },
-    loading:{
+    loading: {
         alignSelf: 'center',
         fontSize: 20
-        
+
     }
 
 })
-
-
 
 export default Coin

@@ -1,26 +1,24 @@
-import React, {useEffect, useState} from 'react'
-import axios from 'axios'
-import { View, Text, Image, ImageBackground, ScrollView, TextInput, StyleSheet, SafeAreaView } from 'react-native';
-import {BsCurrencyBitcoin} from "react-icons/bs";
-import { Icon } from 'react-native-elements';
+import React from 'react'
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { priceBit, priceEth, priceStellar, priceRipple } from '../screens/onboarding';
 let colorProfit: string 
 let name: string;
 let delta: number = 0;
 let price: number;
 let profit: number = 0;
-const Pays = (props) =>{
-       
+
+const Pays = (props) =>{      
     let checkBit = "Bitcoin".localeCompare(props.name)
     let checkEth = "Ethereum".localeCompare(props.name)
     let checkSte = "Stellar".localeCompare(props.name)
     let checkRip = "Ripple".localeCompare(props.name)
-    if(props.name === "Bitcoin"){
+
+    if(checkBit === 0){
         name = "Bitcoin"
         delta = priceBit - props.price;
         price = priceBit;
     }
-    else if(props.name === "Ethereum"){
+    else if(checkEth === 0){
         name = "Ethereum"
         delta = priceEth - props.price;
         price = priceEth;
@@ -68,8 +66,8 @@ const Pays = (props) =>{
         <View style = {styles.container}>
             <Text style = {styles.title}>{name}</Text>
             <Text>Quantity: {props.quantity}</Text>
-            <Text>Price Bought: {props.price} </Text>
-            <Text>{price}</Text>
+            <Text>Price Bought: ${props.price} </Text>
+            <Text>Current Price: ${Math.round(price*100)/ 100}</Text>
             <Text>Net Value: {"$" + Math.round(props.quantity * price)} </Text>
             <Text style = {styles.profit}>Profit = {"$" + profit} </Text>
         </View>

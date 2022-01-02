@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { KeyboardAvoidingView, View, Pressable, Text, Button, Platform, RefreshControl, Image, ImageBackground, SafeAreaView, ScrollView, TextInput, StyleSheet } from 'react-native';
+import { KeyboardAvoidingView, View, Pressable, Text, Platform, RefreshControl, SafeAreaView, ScrollView, TextInput, StyleSheet } from 'react-native';
 import Pays from '../components/Pays';
 import { profit } from '../components/Pays';
 import { priceBit, priceEth, priceStellar, priceRipple } from './onboarding';
@@ -22,6 +22,7 @@ const Wallet = () => {
     const [coinPrice, setCoinPrice] = useState(null)
     const [list, setList] = useState([])
     const [profit1, setProfit] = useState(0)
+
     const handleNewCoin = () => {
         if (coinName === null) {
             setCoinName(null)
@@ -35,12 +36,12 @@ const Wallet = () => {
             setCoinName(null)
             return
         }
-
+        
         let object = { id: index, name: coinName, price: coinPrice, quantity: coinQuantity }
         setIndex(index + 1)
         setList([...list, object])
         setCoinName(null)
-        setCoinPrice(0)
+        setCoinPrice(null)
         setCoinQuantity(null)
         setProfit(profit1 + profit)
 
@@ -61,10 +62,8 @@ const Wallet = () => {
             price: coinPrice,
         })
     }
-    
     useEffect(()=>{
         const getInfo = async () => {
-            let listTest = [];
             const coins = await firestore.collection(`users/${auth.currentUser.uid}/users`);
             coins.get().then((querySnapshot) =>{
                 const tempDoc = querySnapshot.docs.map((doc) => {
@@ -84,18 +83,12 @@ const Wallet = () => {
             })
         }
         getInfo();
-        
-
-
     },[])
-  
+
     const onRefresh = useCallback(() => {
         setRefreshing(true)
-
         wait(1000).then(() => {
-
             setRefreshing(false)
-
         })
     }, [refreshing])
 
@@ -106,7 +99,6 @@ const Wallet = () => {
                 <View>
                     <Text style={styles.totProfit}>
                         Total Profit:
-
                         {"$"}{sum}
                     </Text>
                     {
@@ -114,7 +106,6 @@ const Wallet = () => {
                             return (<Pays key={item.id} name={item.name} price={item.price} quantity={item.quantity} />)
                         })
                     }
-
                 </View>
             </ScrollView>
             <KeyboardAvoidingView style={styles.addNewCoin} behavior={Platform.OS === "ios" ? "padding" : "height"} >
@@ -122,7 +113,6 @@ const Wallet = () => {
                 <TextInput value={coinQuantity} onChangeText={text => setCoinQuantity(text)} style={styles.input} placeholder={'Enter Quantity'}></TextInput>
                 <TextInput value={coinPrice} onChangeText={text => setCoinPrice(text)} style={styles.input} placeholder={'Enter Price bought'}></TextInput>
                 <Pressable onPress={() => handleNewCoin()} style={styles.addButton}>
-                    {/*<Pressable onPress={() => updateUser(user.uid, [coinName, coinQuantity, coinPrice])} style={styles.addButton}> */}
                     <View>
                         <Text style={styles.plus} >+</Text>
                     </View>
@@ -134,7 +124,6 @@ const Wallet = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
 
     },
     title: {

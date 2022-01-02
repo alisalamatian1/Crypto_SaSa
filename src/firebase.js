@@ -6,7 +6,6 @@ import { config } from "./firebaseAPI";
 
 const firebaseConfig = config;
 
-// Initialize Firebase
 let app;
 let db;
 if (firebase.apps.length === 0){
@@ -21,5 +20,4 @@ if (firebase.apps.length === 0){
 export {db}
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
-export const functions = firebase.functions();
 export default firebase;

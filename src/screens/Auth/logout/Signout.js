@@ -5,7 +5,7 @@ import { auth } from '../../../firebase'
 
 const Signout = () => {
   const navigation = useNavigation()
-
+  
   const handleSignOut = () => {
     auth
       .signOut()
@@ -14,9 +14,6 @@ const Signout = () => {
       })
       .catch(error => alert(error.message))
   }
-  console.log("In the home")
-  console.log(auth)
-  console.log(auth.currentUser)
   return (
     <View style={styles.container}>
       <Text>Email: {auth.currentUser?.email}</Text>
@@ -38,7 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-   button: {
+  button: {
     backgroundColor: '#0782F9',
     width: '60%',
     padding: 15,

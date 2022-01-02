@@ -2,27 +2,21 @@ import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../../../firebase'
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import firebase from 'firebase';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
   const navigation = useNavigation()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-          console.log("---------------------True inside------------------")
-          console.log(user)
           navigation.replace("home")
       }else{
         console.log("False OUtside")
-        console.log(user)
       }
     })
-    console.log("------------------------"+ unsubscribe + "-------------------------")
     return unsubscribe
   }, [])
   
@@ -35,8 +29,6 @@ const LoginScreen = () => {
           .set({
             email
           })
-        //const user = userCredentials.user;
-        //console.log('Registered with:', user.email);
       })
       .catch(error => alert(error.message))
   }
@@ -44,10 +36,6 @@ const LoginScreen = () => {
   const handleLogin = () => {
     auth
       .signInWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
-      })
       .catch(error => alert(error.message))
   }
 
@@ -60,7 +48,7 @@ const LoginScreen = () => {
         <TextInput
           placeholder="Email"
           value={email}
-          onChangeText={text => setEmail(text)}
+          onChangeText={text => setEmail(text)}         
           style={styles.input}
         />
         <TextInput
@@ -89,7 +77,6 @@ const LoginScreen = () => {
     </KeyboardAvoidingView>
   )
 }
-
 export default LoginScreen
 
 const styles = StyleSheet.create({

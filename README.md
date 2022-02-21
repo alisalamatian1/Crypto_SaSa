@@ -1,5 +1,5 @@
 # Crypto_SaSa Mobile App
-## A minimalistic mobile app for displaying the live prices of cryptocurrencies and a wallet for your transaction record history. 
+## 💹 A minimalistic mobile app for displaying the live prices of cryptocurrencies and a wallet for your transaction record history. 
 
 ### Features and Techniques use:
 - Crypto_SaSa was built using Typescript, React Native, Expo, Axios, and firebase (V 8.10) for the backend. We found it amazingly easy to work with a NoSQL (tree implementation) database. 

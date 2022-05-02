@@ -50,8 +50,6 @@ const Wallet = () => {
         }
         else if (coinName === "Ethereum") {
             sum += coinQuantity * (priceEth - coinPrice)
-        } else if (coinName === "Stellar") {
-            sum += coinQuantity * (priceStellar - coinPrice)
         } else if (coinName === "Ripple") {
             sum += coinQuantity * (priceRipple - coinPrice)
         }
@@ -72,8 +70,6 @@ const Wallet = () => {
                     }
                     else if (doc.data().name  === "Ethereum") {
                         sum += doc.data().quantity  * (priceEth - doc.data().price)
-                    } else if (doc.data().name  === "Stellar") {
-                        sum += doc.data().quantity  * (priceStellar - doc.data().price)
                     } else if (doc.data().name  === "Ripple") {
                         sum += doc.data().quantity  * (priceRipple - doc.data().price)
                     }

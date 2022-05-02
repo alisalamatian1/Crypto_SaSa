@@ -20,7 +20,7 @@ let priceEth: number;
 let priceStellar: number;
 let priceRipple: number;
 const Onboarding = () => {
-    const originalUrl = 'https://api.cryptonator.com/api/ticker/btc-usd'
+    const originalUrl = 'https://api.nomics.com/v1/currencies/ticker?key=118c3d3f998c44f6566e9f109fab3d53288d0fc9&ids=BTC,ETH,XRP&interval=1d,30d&convert=CAD'
     let url = 'https://api.cryptonator.com/api/ticker/btc-usd'
     let urlEth = "https://api.cryptonator.com/api/ticker/eth-usd"
     let urlStellar = "https://api.cryptonator.com/api/full/xlm-usd"
@@ -31,26 +31,24 @@ const Onboarding = () => {
     const [ripple, setRipple] = useState(null)
     const [refreshing, setRefreshing] = useState(false)
 
+    
     const content = null
     useEffect(() => {
-      axios.get(url)
+      axios.get(originalUrl)
         .then(response => {
-          setbitcoin(response.data)
+
+          console.log("1")
+          console.log(response.data[0].price)
+          setbitcoin(response.data[0].price)
+          console.log("11")
+          setEthereum(response.data[1].price)
+          console.log("111")
+          setRipple(response.data[2].price)
+
+
         })
 
-      axios.get(urlEth)
-        .then(response => {
-          setEthereum(response.data)
-        })
-
-      axios.get(urlStellar)
-        .then(response => {
-          setStellar(response.data)
-        })
-      axios.get(urlRipple)
-        .then(response => {
-          setRipple(response.data)
-        })
+      
 
 
     }, [refreshing])
@@ -58,22 +56,17 @@ const Onboarding = () => {
 
 
     if (bitcoin) {
-      priceBit = bitcoin.ticker.price;
+      priceBit = bitcoin;
     } else {
       priceBit = 0;
     }
     if (ethereum) {
-      priceEth = ethereum.ticker.price;
+      priceEth = ethereum;
     } else {
       priceEth = 0;
     }
-    if (stellar) {
-      priceStellar = stellar.ticker.price
-    } else {
-      priceStellar = 0;
-    }
     if (ripple) {
-      priceRipple = ripple.ticker.price
+      priceRipple = ripple;
     } else {
       priceRipple = 0;
     }
@@ -93,13 +86,11 @@ const Onboarding = () => {
       <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
 
         <View style={styles.main}>
-          <Coin name={"Bitcoin"} logo={'logo-bitcoin'} price={priceBit} />
+          <Coin name={"Bitcoin"} logo={'logo-bitcoin'} price={bitcoin} />
           <Text></Text>
-          <Coin name={"Ethereum"} price={priceEth} />
+          <Coin name={"Ethereum"} price={ethereum} />
           <Text></Text>
-          <Coin name={"Stellar"} price={priceStellar} />
-          <Text></Text>
-          <Coin name={"Ripple"} price={priceRipple} />
+          <Coin name={"Ripple"} price={ripple} />
         </View>
 
       </ScrollView>
